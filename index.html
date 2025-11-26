@@ -1,13 +1,3 @@
-<!-- SEO 기본 설정 -->
-<meta name="description" content="계란 박스 게임 - 숫자를 드래그해서 합이 10이 되면 오렌지가 사라지는 퍼즐 게임. 누구나 쉽게 즐길 수 있는 뇌 자극 게임!">
-<meta name="keywords" content="게임, 퍼즐게임, 숫자게임, 합이 10, 수학게임, 브레인게임, 캐쥬얼게임, 오렌지게임, Egg Game">
-<meta property="og:title" content="계란 박스 게임 – 합이 10이 되면 사라지는 퍼즐">
-<meta property="og:description" content="숫자를 드래그해서 합이 10을 만들면 오렌지가 사라지는 재미있는 퍼즐 게임. 모바일, PC 모두 가능!">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://kkhj218-netizen.github.io/Egg-game/">
-<meta property="og:image" content="https://your-image-url.jpg">
-<meta name="robots" content="index, follow">
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -22,9 +12,27 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       min-height: 100vh;
       background: #e5ffe7;
+      padding: 16px;
+    }
+
+    /* 게임 + 광고 전체 래퍼 */
+    .page-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      max-width: 1200px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    @media (max-width: 960px) {
+      .page-wrap {
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     .frame {
@@ -52,6 +60,33 @@
     }
 
     .hidden { display: none !important; }
+
+    /* ===== 사이드 광고 (초록 박스 밖) ===== */
+    .side-ad {
+      width: 260px;
+      flex-shrink: 0;
+    }
+
+    .side-ad-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #064e3b;
+      margin-bottom: 6px;
+    }
+
+    .side-ad-box {
+      background: #f9fafb;
+      border-radius: 14px;
+      padding: 6px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
+
+    @media (max-width: 960px) {
+      .side-ad {
+        width: 100%;
+        max-width: 360px;
+      }
+    }
 
     /* ===== 메인 메뉴 ===== */
 
@@ -401,99 +436,120 @@
 </head>
 <body>
 
-<div class="frame">
-  <div class="inner">
+<div class="page-wrap">
+  <!-- 초록 게임 박스 -->
+  <div class="frame">
+    <div class="inner">
 
-    <!-- ===== 메인 메뉴 ===== -->
-    <div id="menuScreen">
-      <div class="menu-layout">
-        <div class="title-wrap">
-          <div class="main-sub">성포 본척척 의원 </div>
-          <div class="main-title">계란 박스</div>
+      <!-- ===== 메인 메뉴 ===== -->
+      <div id="menuScreen">
+        <div class="menu-layout">
+          <div class="title-wrap">
+            <div class="main-sub">성포 본척척 의원 </div>
+            <div class="main-title">계란 박스</div>
 
-          <button class="big-orange-btn" id="playBtn">
-            <span>Play</span>
-          </button>
-        </div>
+            <button class="big-orange-btn" id="playBtn">
+              <span>Play</span>
+            </button>
+          </div>
 
-        <div class="menu-numbers">
-          <div class="menu-small-orange">5</div>
-          <div class="menu-small-orange">7</div>
-          <div class="menu-small-orange">6</div>
-          <div class="menu-small-orange">8</div>
-          <div class="menu-small-orange">3</div>
-          <div class="menu-small-orange">2</div>
-          <div class="menu-small-orange">9</div>
-          <div class="menu-small-orange">1</div>
-          <div class="menu-small-orange">4</div>
-        </div>
-      </div>
-
-      <div class="bottom-bar">
-        <div class="bottom-left">
-          <button id="menuResetBtn">Reset</button>
-        </div>
-        <div class="bottom-right">
-          <label class="check-wrap">
-            <input type="checkbox" id="lightToggle" />
-            <span>연한 색</span>
-          </label>
-          <label class="check-wrap">
-            <input type="checkbox" id="bgmToggle" />
-            <span>BGM</span>
-          </label>
-          <span class="music-icon">🎵</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== 게임 화면 ===== -->
-    <div id="gameScreen" class="hidden">
-      <div class="game-header">
-        <div class="timer-box">
-          <div>남은 시간: <span id="timeLabel">120.0초</span></div>
-          <div class="timer-bar-bg">
-            <div class="timer-bar-fill" id="timeBar"></div>
+          <div class="menu-numbers">
+            <div class="menu-small-orange">5</div>
+            <div class="menu-small-orange">7</div>
+            <div class="menu-small-orange">6</div>
+            <div class="menu-small-orange">8</div>
+            <div class="menu-small-orange">3</div>
+            <div class="menu-small-orange">2</div>
+            <div class="menu-small-orange">9</div>
+            <div class="menu-small-orange">1</div>
+            <div class="menu-small-orange">4</div>
           </div>
         </div>
-        <div class="score-box">
-          점수: <span id="scoreLabel">0</span>점<br/>
-          선택 합: <span id="sumLabel">0</span>
-        </div>
-      </div>
 
-      <div id="gameBoard">
-        <div id="selectionRect"></div>
-      </div>
-
-      <div class="game-footer">
-        <div>
-          <button class="btn" id="resetGameBtn">다시 시작</button>
-          <button class="btn" id="backMenuBtn" style="margin-left:6px;">메뉴로</button>
-        </div>
-        <div class="hint">
-          드래그해서 숫자들을 선택해 <strong>합이 10</strong>이 되면 오렌지가 사라져요!
-        </div>
-      </div>
-
-      <!-- 종료 오버레이 -->
-      <div id="endOverlay" class="end-overlay hidden" style="display:none;">
-        <div class="end-card">
-          <h2>시간 종료!</h2>
-          <div class="score-big" id="finalScoreText">0점</div>
-          <p>
-            2분 동안 만든 총 점수입니다.<br/>
-            다시 도전해서 기록을 갱신해 볼까요?
-          </p>
-          <div class="end-btns">
-            <button class="end-retry" id="retryBtn">다시 플레이</button>
-            <button class="end-menu" id="endMenuBtn">메뉴로</button>
+        <div class="bottom-bar">
+          <div class="bottom-left">
+            <button id="menuResetBtn">Reset</button>
+          </div>
+          <div class="bottom-right">
+            <label class="check-wrap">
+              <input type="checkbox" id="lightToggle" />
+              <span>연한 색</span>
+            </label>
+            <label class="check-wrap">
+              <input type="checkbox" id="bgmToggle" />
+              <span>BGM</span>
+            </label>
+            <span class="music-icon">🎵</span>
           </div>
         </div>
       </div>
-    </div>
 
+      <!-- ===== 게임 화면 ===== -->
+      <div id="gameScreen" class="hidden">
+        <div class="game-header">
+          <div class="timer-box">
+            <div>남은 시간: <span id="timeLabel">120.0초</span></div>
+            <div class="timer-bar-bg">
+              <div class="timer-bar-fill" id="timeBar"></div>
+            </div>
+          </div>
+          <div class="score-box">
+            점수: <span id="scoreLabel">0</span>점<br/>
+            선택 합: <span id="sumLabel">0</span>
+          </div>
+        </div>
+
+        <div id="gameBoard">
+          <div id="selectionRect"></div>
+        </div>
+
+        <div class="game-footer">
+          <div>
+            <button class="btn" id="resetGameBtn">다시 시작</button>
+            <button class="btn" id="backMenuBtn" style="margin-left:6px;">메뉴로</button>
+          </div>
+          <div class="hint">
+            드래그해서 숫자들을 선택해 <strong>합이 10</strong>이 되면 계란이 사라져요!
+          </div>
+        </div>
+
+        <!-- 종료 오버레이 -->
+        <div id="endOverlay" class="end-overlay hidden" style="display:none;">
+          <div class="end-card">
+            <h2>시간 종료!</h2>
+            <div class="score-big" id="finalScoreText">0점</div>
+            <p>
+              2분 동안 만든 총 점수입니다.<br/>
+              다시 도전해서 기록을 갱신해 볼까요?
+            </p>
+            <div class="end-btns">
+              <button class="end-retry" id="retryBtn">다시 플레이</button>
+              <button class="end-menu" id="endMenuBtn">메뉴로</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
+
+  <!-- 오른쪽/아래 쿠팡 광고 -->
+  <aside class="side-ad">
+    <div class="side-ad-title">추천 상품</div>
+    <div class="side-ad-box">
+      <script src="https://ads-partners.coupang.com/g.js"></script>
+      <script>
+        new PartnersCoupang.G({
+          "id": 944627,
+          "trackingCode": "AF5786108",
+          "subId": null,
+          "template": "carousel",
+          "width": "250",
+          "height": "360"
+        });
+      </script>
+    </div>
+  </aside>
 </div>
 
 <script>
@@ -585,7 +641,7 @@
     gameBoardEl.innerHTML = "";
     gameBoardEl.appendChild(oldRect);
 
-    // ★ 셀 DOM 캐싱용 2차원 배열 초기화
+    // 셀 DOM 캐싱용 2차원 배열 초기화
     cellElements = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
 
     for (let r = 0; r < ROWS; r++) {
@@ -607,7 +663,7 @@
           orange.appendChild(numEl);
           cell.appendChild(orange);
         }
-        cellElements[r][c] = cell; // ★ 캐싱
+        cellElements[r][c] = cell; // 캐싱
         gameBoardEl.appendChild(cell);
       }
     }
@@ -711,7 +767,7 @@
     currentSum = cells.reduce((sum, { r, c }) => sum + board[r][c], 0);
     updateScoreUI();
 
-    // ★ 모든 셀에서 selected 제거 (DOM 캐싱 사용)
+    // 모든 셀에서 selected 제거
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
         const el = cellElements[r][c];
@@ -794,7 +850,7 @@
     const cell = getCellFromEvent(e);
     if (!cell) return;
 
-    // ★ 같은 칸이면 연산 생략 → 불필요한 updateSelection 방지
+    // 같은 칸이면 연산 생략
     if (dragCurrentCell &&
         dragCurrentCell.r === cell.r &&
         dragCurrentCell.c === cell.c) {
@@ -818,7 +874,7 @@
       const cells = getSelectedCells();
       if (cells.length > 0) {
         cells.forEach(({ r, c }) => board[r][c] = 0);
-        score += cells.length; // 점수 = 선택한 오렌지 개수
+        score += cells.length; // 점수 = 선택한 계란 개수
       }
     } else if (currentSum > 10) {
       gameBoardEl.classList.add("shake");
@@ -872,4 +928,3 @@
 
 </body>
 </html>
-
