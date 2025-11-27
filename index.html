@@ -14,12 +14,10 @@
       background: #e5ffe7;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       align-items: center;
       padding: 20px;
     }
 
-    /* 전체 레이아웃 */
     .layout {
       display: flex;
       gap: 24px;
@@ -36,7 +34,6 @@
       }
     }
 
-    /* ===== 게임 프레임 ===== */
     .frame {
       width: 900px;
       max-width: 100%;
@@ -63,33 +60,33 @@
 
     .hidden { display: none !important; }
 
-    /* ===== 메인 메뉴 ===== */
+    /* 메뉴 */
     .menu-layout {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      align-items: center;
     }
 
     .title-wrap {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
-      gap: 18px;
+      gap: 16px;
     }
 
     .main-sub {
       font-size: 18px;
       font-weight: 700;
       color: #16a34a;
-      text-shadow: 1px 1px 0 #fff;
+      text-shadow: 1px 1px 0 white;
     }
 
     .main-title {
       font-size: 32px;
       font-weight: 900;
       color: #f97316;
-      text-shadow: 2px 2px 0 #fff, 0 0 4px rgba(0,0,0,0.2);
+      text-shadow: 2px 2px 0 white, 0 0 4px rgba(0,0,0,0.2);
     }
 
     .big-orange-btn {
@@ -103,16 +100,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.1s, box-shadow 0.1s;
+      transition: 0.15s;
     }
     .big-orange-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 16px 25px rgba(0,0,0,0.28);
     }
     .big-orange-btn span {
       font-size: 32px;
       font-weight: 900;
-      color: #fff;
+      color: white;
       text-shadow: 0 3px 4px rgba(0,0,0,0.4);
     }
 
@@ -120,10 +116,7 @@
       display: grid;
       grid-template-columns: repeat(3, 70px);
       grid-auto-rows: 70px;
-      gap: 10px 18px;
-      justify-items: center;
-      align-items: center;
-      margin-right: 10px;
+      gap: 12px;
     }
 
     .menu-small-orange {
@@ -143,53 +136,133 @@
     .bottom-bar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-top: 14px;
-      padding: 0 4px;
+      margin-top: 16px;
       font-size: 13px;
-      color: #064e3b;
     }
 
     .bottom-left button {
-      border-radius: 999px;
-      border: 2px solid #ffffff;
-      background: rgba(22, 163, 74, 0.9);
-      color: #fff;
-      padding: 6px 16px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .bottom-left button:hover {
       background: #16a34a;
+      color: white;
+      border-radius: 20px;
+      border: none;
+      padding: 6px 14px;
+      cursor: pointer;
     }
 
-    .bottom-right {
+    /* 게임 화면 */
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #065f46;
+    }
+
+    .timer-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .timer-bar-bg {
+      width: 180px;
+      height: 10px;
+      background: #dcfce7;
+      border-radius: 999px;
+    }
+    .timer-bar-fill {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,#22c55e,#facc15);
+      transform-origin: left;
+    }
+
+    #gameBoard {
+      width: 100%;
+      max-width: 720px;
+      height: 360px;
+      margin: 6px auto;
+      background: white;
+      border-radius: 16px;
+      padding: 6px;
+      display: grid;
+      grid-template-columns: repeat(17, 1fr);
+      grid-template-rows: repeat(10, 1fr);
+      gap: 2px;
+      position: relative;
+      user-select: none;
+    }
+
+    .cell {
+      background: #ffe2bf;
+      border-radius: 10px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      justify-content: center;
+      font-weight: 700;
+    }
+    .cell.empty {
+      background: #f4f4f4;
+      color: transparent;
+    }
+    .cell.selected {
+      background: #fed7aa;
+    }
+
+    .orange {
+      width: 85%;
+      height: 85%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #fff7ed 0%, #fed7aa 25%, #f97316 70%, #ea580c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .orange-number {
+      font-size: 13px;
+      font-weight: 800;
+      color: #7c2d12;
+    }
+
+    #selectionRect {
+      position: absolute;
+      border: 2px dashed #fb923c;
+      background: rgba(254,215,170,0.25);
+      display: none;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    #gameBoard.valid #selectionRect {
+      border-color: #22c55e;
+      background: rgba(187,247,208,0.35);
+    }
+    #gameBoard.over10 #selectionRect {
+      border-color: red;
+      background: rgba(254,202,202,0.4);
+    }
+
+    .game-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
       font-size: 13px;
     }
 
-    .check-wrap {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-    }
-    .check-wrap input {
+    .btn {
+      background: #22c55e;
+      color: white;
+      border-radius: 20px;
+      padding: 6px 14px;
+      border: none;
       cursor: pointer;
     }
 
-    .music-icon {
-      font-size: 18px;
-    }
-
-    /* ===== 광고 영역 ===== */
+    /* 광고 */
     .ad-container {
-      width: 100%;
-      max-width: 320px;
-      text-align: center;
+      width: 320px;
+      text-align:center;
     }
 
     .ad-title {
@@ -200,24 +273,110 @@
     }
 
     .coupang-notice {
-      font-size: 12px;
-      color: #666;
-      margin-top: 8px;
-      line-height: 1.4;
+      font-size:12px;
+      color:#666;
+      line-height:1.4;
     }
 
-    /* (생략: 게임 화면, 셀, 선택 박스, 타이머 등 기존 코드 동일) */
+    /* 종료 화면 */
+    .end-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .end-card {
+      background: #fefce8;
+      padding: 20px;
+      border-radius: 18px;
+      text-align: center;
+      width: 260px;
+    }
   </style>
 </head>
 <body>
 
 <div class="layout">
 
-  <!-- 게임 영역 -->
+  <!-- 게임 박스 -->
   <div class="frame">
     <div class="inner">
 
-      <!-- (생략: 메뉴 화면 + 게임 화면 전체 동일) -->
+      <!-- 메뉴 -->
+      <div id="menuScreen">
+        <div class="menu-layout">
+          <div class="title-wrap">
+            <div class="main-sub">성포 본척척 의원</div>
+            <div class="main-title">계란 박스</div>
+            <button id="playBtn" class="big-orange-btn">
+              <span>Play</span>
+            </button>
+          </div>
+
+          <div class="menu-numbers">
+            <div class="menu-small-orange">5</div>
+            <div class="menu-small-orange">7</div>
+            <div class="menu-small-orange">6</div>
+            <div class="menu-small-orange">8</div>
+            <div class="menu-small-orange">3</div>
+            <div class="menu-small-orange">2</div>
+            <div class="menu-small-orange">9</div>
+            <div class="menu-small-orange">1</div>
+            <div class="menu-small-orange">4</div>
+          </div>
+        </div>
+
+        <div class="bottom-bar">
+          <div class="bottom-left">
+            <button id="menuResetBtn">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 게임 화면 -->
+      <div id="gameScreen" class="hidden">
+
+        <div class="game-header">
+          <div class="timer-box">
+            <span>남은 시간: <span id="timeLabel">120.0초</span></span>
+            <div class="timer-bar-bg">
+              <div class="timer-bar-fill" id="timeBar"></div>
+            </div>
+          </div>
+
+          <div class="score-box">
+            점수: <span id="scoreLabel">0</span>점 <br>
+            선택 합: <span id="sumLabel">0</span>
+          </div>
+        </div>
+
+        <div id="gameBoard">
+          <div id="selectionRect"></div>
+        </div>
+
+        <div class="game-footer">
+          <div>
+            <button class="btn" id="resetGameBtn">다시 시작</button>
+            <button class="btn" id="backMenuBtn">메뉴로</button>
+          </div>
+          <div>드래그해서 합이 10 되면 사라짐!</div>
+        </div>
+
+        <!-- 종료 -->
+        <div id="endOverlay" class="end-overlay hidden">
+          <div class="end-card">
+            <h2>시간 종료!</h2>
+            <div id="finalScoreText" style="font-size:26px;font-weight:800;color:#f97316;">0점</div>
+            <p>다시 도전해보세요!</p>
+            <button class="btn" id="retryBtn">다시 플레이</button>
+            <button class="btn" id="endMenuBtn" style="background:#ccc;color:#111;">메뉴로</button>
+          </div>
+        </div>
+
+      </div>
 
     </div>
   </div>
@@ -246,21 +405,323 @@
     </p>
   </div>
 
-</div> <!-- layout 끝 -->
-
-<!-- ===== 하단 고지 문구 (추가됨) ===== -->
-<div style="
-  width: 100%;
-  max-width: 1240px;
-  margin: 24px auto 0;
-  font-size: 12px;
-  color: #666;
-  text-align: center;
-  line-height: 1.5;
-">
-  ※ 이 게임은 쿠팡 파트너스 활동의 일환으로  
-  이에 따른 일정액의 수수료를 제공받습니다.
 </div>
+
+<!-- 하단 고지 문구 -->
+<div style="width:100%;max-width:1240px;margin:24px auto 0;text-align:center;font-size:12px;color:#666;">
+  ※ 이 게임은 쿠팡 파트너스 활동의 일환으로 이에 따른 일정액의 수수료를 제공받습니다.
+</div>
+
+<script>
+  /* ==== JS는 이전 버전 100% 그대로 복구 ==== */
+
+  const ROWS = 10;
+  const COLS = 17;
+  const TOTAL_TIME_MS = 120000;
+
+  let board = [];
+  let cellElements = [];
+
+  let score = 0;
+  let currentSum = 0;
+
+  let dragging = false;
+  let dragStartCell = null;
+  let dragCurrentCell = null;
+
+  let gameActive = false;
+  let timeRemaining = TOTAL_TIME_MS;
+  let timerInterval = null;
+
+  const menuScreen = document.getElementById("menuScreen");
+  const gameScreen = document.getElementById("gameScreen");
+  const endOverlay = document.getElementById("endOverlay");
+
+  const playBtn = document.getElementById("playBtn");
+  const menuResetBtn = document.getElementById("menuResetBtn");
+
+  const gameBoardEl = document.getElementById("gameBoard");
+  const selectionRectEl = document.getElementById("selectionRect");
+
+  const scoreLabel = document.getElementById("scoreLabel");
+  const sumLabel = document.getElementById("sumLabel");
+  const timeLabel = document.getElementById("timeLabel");
+  const timeBar = document.getElementById("timeBar");
+
+  const finalScoreText = document.getElementById("finalScoreText");
+
+  const resetGameBtn = document.getElementById("resetGameBtn");
+  const backMenuBtn = document.getElementById("backMenuBtn");
+  const retryBtn = document.getElementById("retryBtn");
+  const endMenuBtn = document.getElementById("endMenuBtn");
+
+  function showMenu() {
+    menuScreen.classList.remove("hidden");
+    gameScreen.classList.add("hidden");
+    hideEndOverlay();
+    stopTimer();
+  }
+
+  function showGame() {
+    menuScreen.classList.add("hidden");
+    gameScreen.classList.remove("hidden");
+    hideEndOverlay();
+  }
+
+  function showEndOverlay() {
+    endOverlay.classList.remove("hidden");
+  }
+
+  function hideEndOverlay() {
+    endOverlay.classList.add("hidden");
+  }
+
+  function initBoard() {
+    board = [];
+    for (let r = 0; r < ROWS; r++) {
+      const row = [];
+      for (let c = 0; c < COLS; c++) {
+        row.push(Math.floor(Math.random() * 9) + 1);
+      }
+      board.push(row);
+    }
+  }
+
+  function renderBoard() {
+    const oldRect = selectionRectEl;
+    gameBoardEl.innerHTML = "";
+    gameBoardEl.appendChild(oldRect);
+
+    cellElements = Array.from({ length: ROWS }, () => Array(COLS));
+
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const v = board[r][c];
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+
+        if (v === 0) {
+          cell.classList.add("empty");
+        } else {
+          const orange = document.createElement("div");
+          orange.classList.add("orange");
+          const numEl = document.createElement("div");
+          numEl.classList.add("orange-number");
+          numEl.textContent = v;
+          orange.appendChild(numEl);
+          cell.appendChild(orange);
+        }
+
+        cellElements[r][c] = cell;
+        gameBoardEl.appendChild(cell);
+      }
+    }
+  }
+
+  function updateScoreUI() {
+    scoreLabel.textContent = score;
+    sumLabel.textContent = currentSum;
+  }
+
+  function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+
+    timerInterval = setInterval(() => {
+      if (!gameActive) return;
+
+      timeRemaining -= 100;
+      if (timeRemaining <= 0) {
+        timeRemaining = 0;
+        endGame();
+      }
+      updateTimerUI();
+    }, 100);
+  }
+
+  function stopTimer() {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+  }
+
+  function updateTimerUI() {
+    timeLabel.textContent = (timeRemaining / 1000).toFixed(1) + "초";
+    timeBar.style.transform = `scaleX(${timeRemaining / TOTAL_TIME_MS})`;
+  }
+
+  function startGame() {
+    hideEndOverlay();
+    stopTimer();
+
+    initBoard();
+    renderBoard();
+
+    score = 0;
+    currentSum = 0;
+    timeRemaining = TOTAL_TIME_MS;
+    gameActive = true;
+
+    updateScoreUI();
+    updateTimerUI();
+    startTimer();
+  }
+
+  function endGame() {
+    gameActive = false;
+    stopTimer();
+    finalScoreText.textContent = score + "점";
+    showEndOverlay();
+  }
+
+  function getCellFromEvent(e) {
+    const t = e.target.closest(".cell");
+    if (!t) return null;
+    return {
+      r: parseInt(t.dataset.row),
+      c: parseInt(t.dataset.col)
+    };
+  }
+
+  function getSelectedCells() {
+    if (!dragStartCell || !dragCurrentCell) return [];
+
+    const r1 = Math.min(dragStartCell.r, dragCurrentCell.r);
+    const r2 = Math.max(dragStartCell.r, dragCurrentCell.r);
+    const c1 = Math.min(dragStartCell.c, dragCurrentCell.c);
+    const c2 = Math.max(dragStartCell.c, dragCurrentCell.c);
+
+    const arr = [];
+    for (let r = r1; r <= r2; r++) {
+      for (let c = c1; c <= c2; c++) {
+        if (board[r][c] !== 0) arr.push({ r, c });
+      }
+    }
+    return arr;
+  }
+
+  function updateSelection() {
+    const cells = getSelectedCells();
+    currentSum = cells.reduce((a, { r, c }) => a + board[r][c], 0);
+
+    updateScoreUI();
+
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        cellElements[r][c].classList.remove("selected");
+      }
+    }
+
+    cells.forEach(({ r, c }) => {
+      cellElements[r][c].classList.add("selected");
+    });
+
+    if (!dragStartCell || !dragCurrentCell) {
+      selectionRectEl.style.display = "none";
+      return;
+    }
+
+    const sEl = cellElements[dragStartCell.r][dragStartCell.c];
+    const eEl = cellElements[dragCurrentCell.r][dragCurrentCell.c];
+
+    const boardRect = gameBoardEl.getBoundingClientRect();
+    const sRect = sEl.getBoundingClientRect();
+    const eRect = eEl.getBoundingClientRect();
+
+    const left = Math.min(sRect.left, eRect.left) - boardRect.left;
+    const top = Math.min(sRect.top, eRect.top) - boardRect.top;
+    const right = Math.max(sRect.right, eRect.right) - boardRect.left;
+    const bottom = Math.max(sRect.bottom, eRect.bottom) - boardRect.top;
+
+    selectionRectEl.style.display = "block";
+    selectionRectEl.style.left = left + "px";
+    selectionRectEl.style.top = top + "px";
+    selectionRectEl.style.width = (right - left) + "px";
+    selectionRectEl.style.height = (bottom - top) + "px";
+
+    gameBoardEl.classList.remove("valid", "over10");
+    if (currentSum === 10) gameBoardEl.classList.add("valid");
+    else if (currentSum > 10) gameBoardEl.classList.add("over10");
+  }
+
+  function clearSelection() {
+    dragStartCell = null;
+    dragCurrentCell = null;
+    currentSum = 0;
+    updateScoreUI();
+    selectionRectEl.style.display = "none";
+
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        cellElements[r][c].classList.remove("selected");
+      }
+    }
+
+    gameBoardEl.classList.remove("valid", "over10");
+  }
+
+  function onPointerDown(e) {
+    if (!gameActive) return;
+    const cell = getCellFromEvent(e);
+    if (!cell || board[cell.r][cell.c] === 0) return;
+
+    dragging = true;
+    dragStartCell = cell;
+    dragCurrentCell = cell;
+    updateSelection();
+  }
+
+  function onPointerMove(e) {
+    if (!dragging || !gameActive) return;
+
+    const cell = getCellFromEvent(e);
+    if (!cell) return;
+
+    if (dragCurrentCell.r === cell.r && dragCurrentCell.c === cell.c) return;
+
+    dragCurrentCell = cell;
+    updateSelection();
+  }
+
+  function onPointerUp(e) {
+    if (!dragging) return;
+    dragging = false;
+
+    if (currentSum === 10) {
+      const cells = getSelectedCells();
+      cells.forEach(({ r, c }) => board[r][c] = 0);
+      score += cells.length;
+    }
+
+    clearSelection();
+    renderBoard();
+  }
+
+  playBtn.onclick = () => {
+    showGame();
+    startGame();
+  };
+  menuResetBtn.onclick = () => {
+    showGame();
+    startGame();
+  };
+
+  resetGameBtn.onclick = startGame;
+  backMenuBtn.onclick = showMenu;
+  retryBtn.onclick = () => {
+    hideEndOverlay();
+    startGame();
+  };
+  endMenuBtn.onclick = showMenu;
+
+  gameBoardEl.addEventListener("pointerdown", onPointerDown);
+  gameBoardEl.addEventListener("pointermove", onPointerMove);
+  window.addEventListener("pointerup", onPointerUp);
+
+  showMenu();
+</script>
 
 </body>
 </html>
