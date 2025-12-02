@@ -486,7 +486,7 @@
   const ROWS = 10;
   const COLS = 17;
   const TOTAL_TIME_MS = 120000;
-  const HIGH_SCORE_KEY = "egg_box_high_scores_v1"; // 로컬스토리지 키
+  const HIGH_SCORE_KEY = "egg_box_high_scores_v2"; // 로컬스토리지 키 (버전2)
 
   let board = [];
   let cellElements = [];
@@ -824,7 +824,7 @@
       return;
     }
 
-    highScores.forEach((rec, idx) => {
+    highScores.forEach((rec) => {
       const li = document.createElement("li");
       const name = rec.name || "무명";
       li.textContent = `${name} – ${rec.score}점`;
@@ -895,10 +895,12 @@
   gameBoardEl.addEventListener("pointermove", onPointerMove);
   window.addEventListener("pointerup", onPointerUp);
 
-  // 초기화
-  loadHighScores();
-  renderHighScores();
-  showMenu();
+  // ===================== 초기화 =====================
+  window.addEventListener("load", () => {
+    loadHighScores();     // 저장된 기록 불러오기
+    renderHighScores();  // 메뉴에 표시
+    showMenu();          // 메뉴 화면으로 시작
+  });
 </script>
 
 </body>
