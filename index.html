@@ -473,6 +473,7 @@
   let timeRemaining = TOTAL_TIME_MS;
   let timerInterval = null;
 
+  // 서버 랭킹
   let highScores = []; // {name, score, timestamp}
 
   const menuScreen = document.getElementById("menuScreen");
@@ -502,6 +503,7 @@
   const highScoreNameInputEl = document.getElementById("highScoreNameInput");
   const saveHighScoreBtn = document.getElementById("saveHighScoreBtn");
 
+  /* ---------- 화면 전환 ---------- */
   function showMenu() {
     menuScreen.classList.remove("hidden");
     gameScreen.classList.add("hidden");
@@ -524,6 +526,7 @@
     hideHighScoreForm();
   }
 
+  /* ---------- 보드 ---------- */
   function initBoard() {
     board = [];
     for (let r = 0; r < ROWS; r++) {
@@ -573,6 +576,7 @@
     sumLabel.textContent = currentSum;
   }
 
+  /* ---------- 타이머 ---------- */
   function startTimer() {
     if (timerInterval) clearInterval(timerInterval);
 
@@ -600,6 +604,7 @@
     timeBar.style.transform = `scaleX(${timeRemaining / TOTAL_TIME_MS})`;
   }
 
+  /* ---------- 게임 시작/종료 ---------- */
   function startGame() {
     hideEndOverlay();
     stopTimer();
@@ -631,6 +636,7 @@
     showEndOverlay();
   }
 
+  /* ---------- 드래그 선택 ---------- */
   function getCellFromEvent(e) {
     const t = e.target.closest(".cell");
     if (!t) return null;
@@ -754,18 +760,27 @@
     renderBoard();
   }
 
+  /* ---------- 구글 시트 랭킹 ---------- */
+
+  // 서버에서 랭킹 가져오기
   async function fetchHighScores() {
     try {
       const res = await fetch(API_URL);
-      const data = await res.json();
-      if (data.status === 'ok' && Array.isArray(data.records)) {
+      const text = await res.text();
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.error("JSON parse error:", text);
+        return;
+      }
+
+      if (data.status === "ok" && Array.isArray(data.records)) {
         highScores = data.records;
-      } else {
-        highScores = [];
       }
     } catch (e) {
-      console.error('fetchHighScores error', e);
-      highScores = [];
+      console.error("fetchHighScores error", e);
     }
     renderHighScores();
   }
@@ -780,7 +795,7 @@
       return;
     }
 
-    highScores.slice(0, 5).forEach((rec) => {
+    [...highScores].sort((a, b) => b.score - a.score).slice(0, 5).forEach((rec) => {
       const li = document.createElement("li");
       const name = rec.name || "무명";
       li.textContent = `${name} – ${rec.score}점`;
@@ -791,8 +806,10 @@
   function isNewHighScore(newScore) {
     if (newScore <= 0) return false;
     if (!highScores.length) return true;
+
     const sorted = [...highScores].sort((a, b) => b.score - a.score);
     if (sorted.length < 5) return true;
+
     const minScore = sorted[sorted.length - 1].score;
     return newScore > minScore;
   }
@@ -807,9 +824,18 @@
     highScoreFormEl.classList.add("hidden");
   }
 
+  // ★ 여기서 핵심: 먼저 화면에서 TOP5 업데이트 → 그 다음 서버로 전송
   async function saveCurrentScoreToHighScores() {
     const name = highScoreNameInputEl.value.trim() || "무명";
 
+    // 1) 화면에서 먼저 업데이트
+    const newRecord = { name, score, timestamp: Date.now() };
+    highScores.push(newRecord);
+    highScores.sort((a, b) => b.score - a.score);
+    highScores = highScores.slice(0, 5);
+    renderHighScores();
+
+    // 2) 서버(구글 시트)에 전송 – 실패해도 게임은 그대로 동작
     try {
       await fetch(API_URL, {
         method: "POST",
@@ -820,10 +846,10 @@
       console.error("saveCurrentScore error", e);
     }
 
-    await fetchHighScores();
     hideHighScoreForm();
   }
 
+  /* ---------- 이벤트 바인딩 ---------- */
   playBtn.onclick = () => {
     showGame();
     startGame();
@@ -850,10 +876,12 @@
   window.addEventListener("pointerup", onPointerUp);
 
   window.addEventListener("load", () => {
-    fetchHighScores();
+    fetchHighScores();  // 기존 랭킹 불러오기
     showMenu();
   });
 </script>
 
+
 </body>
 </html>
+
