@@ -68,6 +68,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 20px;
     }
 
     .title-wrap {
@@ -115,6 +116,13 @@
       text-shadow: 0 3px 4px rgba(0,0,0,0.4);
     }
 
+    .menu-right {
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      align-items:flex-start;
+    }
+
     .menu-numbers {
       display: grid;
       grid-template-columns: repeat(3, 70px);
@@ -141,6 +149,8 @@
       justify-content: space-between;
       margin-top: 16px;
       font-size: 13px;
+      align-items:flex-end;
+      gap:16px;
     }
 
     .bottom-left button {
@@ -150,6 +160,32 @@
       border: none;
       padding: 6px 14px;
       cursor: pointer;
+    }
+
+    /* 하이스코어 박스 */
+    .highscore-box {
+      background:#ecfdf5;
+      border-radius:14px;
+      padding:10px 12px;
+      border:1px solid #bbf7d0;
+      font-size:12px;
+      color:#166534;
+      flex:1;
+      text-align:left;
+    }
+    .highscore-title {
+      font-weight:700;
+      margin-bottom:4px;
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+    #highScoreList {
+      margin:0;
+      padding-left:18px;
+    }
+    #highScoreList li {
+      margin:2px 0;
     }
 
     /* ===================== 게임 화면 ===================== */
@@ -264,16 +300,9 @@
     }
 
     /* 광고 */
-    .ad-container {
+    .coupang-wrap {
       width: 320px;
       text-align:center;
-    }
-
-    .ad-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: #166534;
-      margin-bottom: 8px;
     }
 
     .coupang-notice {
@@ -298,7 +327,26 @@
       border-radius: 18px;
       text-align: center;
       width: 260px;
+      box-shadow:0 8px 16px rgba(0,0,0,0.25);
     }
+
+    .highscore-form-title {
+      margin-top:10px;
+      font-size:13px;
+      font-weight:600;
+      color:#16a34a;
+    }
+
+    .highscore-input {
+      margin-top:6px;
+      width:100%;
+      padding:6px 8px;
+      border-radius:10px;
+      border:1px solid #ddd;
+      font-size:13px;
+      box-sizing:border-box;
+    }
+
   </style>
 </head>
 <body>
@@ -313,7 +361,7 @@
       <div id="menuScreen">
         <div class="menu-layout">
           <div class="title-wrap">
-            <div class="main-sub">성포 본척척 </div>
+            <div class="main-sub">성포 본척척</div>
             <div class="main-title">계란 박스</div>
 
             <button id="playBtn" class="big-orange-btn">
@@ -321,22 +369,32 @@
             </button>
           </div>
 
-          <div class="menu-numbers">
-            <div class="menu-small-orange">5</div>
-            <div class="menu-small-orange">7</div>
-            <div class="menu-small-orange">6</div>
-            <div class="menu-small-orange">8</div>
-            <div class="menu-small-orange">3</div>
-            <div class="menu-small-orange">2</div>
-            <div class="menu-small-orange">9</div>
-            <div class="menu-small-orange">1</div>
-            <div class="menu-small-orange">4</div>
+          <div class="menu-right">
+            <div class="menu-numbers">
+              <div class="menu-small-orange">5</div>
+              <div class="menu-small-orange">7</div>
+              <div class="menu-small-orange">6</div>
+              <div class="menu-small-orange">8</div>
+              <div class="menu-small-orange">3</div>
+              <div class="menu-small-orange">2</div>
+              <div class="menu-small-orange">9</div>
+              <div class="menu-small-orange">1</div>
+              <div class="menu-small-orange">4</div>
+            </div>
           </div>
         </div>
 
         <div class="bottom-bar">
           <div class="bottom-left">
             <button id="menuResetBtn">Reset</button>
+          </div>
+
+          <!-- 🏆 최고 기록 박스 -->
+          <div class="highscore-box">
+            <div class="highscore-title">
+              <span>🏆</span><span>최고 기록 TOP 5</span>
+            </div>
+            <ol id="highScoreList"></ol>
           </div>
         </div>
       </div>
@@ -375,9 +433,19 @@
           <div class="end-card">
             <h2>시간 종료!</h2>
             <div id="finalScoreText" style="font-size:26px;font-weight:800;color:#f97316;">0점</div>
-            <p>다시 도전해보세요!</p>
-            <button class="btn" id="retryBtn">다시 플레이</button>
-            <button class="btn" id="endMenuBtn" style="background:#ccc;color:#111;">메뉴로</button>
+            <p style="margin:6px 0 4px;">다시 도전해보세요!</p>
+
+            <!-- ⭐ 새로운 최고 기록일 때만 보이는 폼 -->
+            <div id="highScoreForm" class="hidden">
+              <div class="highscore-form-title">새로운 최고 기록입니다! 이름을 남겨보세요 🏆</div>
+              <input id="highScoreNameInput" class="highscore-input" type="text" maxlength="8" placeholder="이름 (최대 8글자)">
+              <button class="btn" id="saveHighScoreBtn" style="width:100%;margin-top:6px;">저장</button>
+            </div>
+
+            <div style="margin-top:10px;display:flex;gap:8px;justify-content:center;">
+              <button class="btn" id="retryBtn">다시 플레이</button>
+              <button class="btn" id="endMenuBtn" style="background:#ccc;color:#111;">메뉴로</button>
+            </div>
           </div>
         </div>
 
@@ -386,26 +454,24 @@
     </div>
   </div>
 
-<div class="coupang-wrap">
-  <script src="https://ads-partners.coupang.com/g.js"></script>
-  <script>
-    new PartnersCoupang.G({
-      "id": 946909,
-      "template": "carousel",
-      "trackingCode": "AF5786108",
-      "width": "100%",
-      "height": "200",
-      "tsource": ""
-    });
-  </script>
-</div>
+  <div class="coupang-wrap">
+    <script src="https://ads-partners.coupang.com/g.js"></script>
+    <script>
+      new PartnersCoupang.G({
+        "id": 946909,
+        "template": "carousel",
+        "trackingCode": "AF5786108",
+        "width": "100%",
+        "height": "200",
+        "tsource": ""
+      });
+    </script>
 
-<p class="coupang-notice">
-  이 포스팅은 쿠팡 파트너스 활동의 일환으로,<br>
-  이에 따른 일정액의 수수료를 제공받습니다.
-</p>
-
-<!-- Coupang Partners Banner END -->
+    <p class="coupang-notice">
+      이 포스팅은 쿠팡 파트너스 활동의 일환으로,<br>
+      이에 따른 일정액의 수수료를 제공받습니다.
+    </p>
+  </div>
 
 </div>
 
@@ -415,11 +481,12 @@
 </div>
 
 <script>
-  /* ===================== 게임 로직 ===================== */
+  /* ===================== 게임 로직 + 최고 기록 ===================== */
 
   const ROWS = 10;
   const COLS = 17;
   const TOTAL_TIME_MS = 120000;
+  const HIGH_SCORE_KEY = "egg_box_high_scores_v1"; // 로컬스토리지 키
 
   let board = [];
   let cellElements = [];
@@ -434,6 +501,9 @@
   let gameActive = false;
   let timeRemaining = TOTAL_TIME_MS;
   let timerInterval = null;
+
+  // 하이스코어 리스트
+  let highScores = []; // {name, score, date}
 
   const menuScreen = document.getElementById("menuScreen");
   const gameScreen = document.getElementById("gameScreen");
@@ -457,6 +527,12 @@
   const retryBtn = document.getElementById("retryBtn");
   const endMenuBtn = document.getElementById("endMenuBtn");
 
+  // 하이스코어 DOM
+  const highScoreListEl = document.getElementById("highScoreList");
+  const highScoreFormEl = document.getElementById("highScoreForm");
+  const highScoreNameInputEl = document.getElementById("highScoreNameInput");
+  const saveHighScoreBtn = document.getElementById("saveHighScoreBtn");
+
   function showMenu() {
     menuScreen.classList.remove("hidden");
     gameScreen.classList.add("hidden");
@@ -476,6 +552,7 @@
 
   function hideEndOverlay() {
     endOverlay.classList.add("hidden");
+    hideHighScoreForm();
   }
 
   function initBoard() {
@@ -575,6 +652,14 @@
     gameActive = false;
     stopTimer();
     finalScoreText.textContent = score + "점";
+
+    // 최고 기록 체크
+    if (isNewHighScore(score)) {
+      showHighScoreForm();
+    } else {
+      hideHighScoreForm();
+    }
+
     showEndOverlay();
   }
 
@@ -687,7 +772,7 @@
     updateSelection();
   }
 
-  function onPointerUp(e) {
+  function onPointerUp() {
     if (!dragging) return;
     dragging = false;
 
@@ -700,6 +785,90 @@
     clearSelection();
     renderBoard();
   }
+
+  // ========== 하이스코어 관련 ==========
+
+  function loadHighScores() {
+    try {
+      const raw = localStorage.getItem(HIGH_SCORE_KEY);
+      if (!raw) {
+        highScores = [];
+        return;
+      }
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        highScores = parsed;
+      } else {
+        highScores = [];
+      }
+    } catch (e) {
+      highScores = [];
+    }
+  }
+
+  function saveHighScores() {
+    try {
+      localStorage.setItem(HIGH_SCORE_KEY, JSON.stringify(highScores));
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  function renderHighScores() {
+    highScoreListEl.innerHTML = "";
+
+    if (highScores.length === 0) {
+      const li = document.createElement("li");
+      li.textContent = "아직 기록이 없습니다. 첫 기록의 주인공이 되어보세요!";
+      highScoreListEl.appendChild(li);
+      return;
+    }
+
+    highScores.forEach((rec, idx) => {
+      const li = document.createElement("li");
+      const name = rec.name || "무명";
+      li.textContent = `${name} – ${rec.score}점`;
+      highScoreListEl.appendChild(li);
+    });
+  }
+
+  function isNewHighScore(newScore) {
+    if (newScore <= 0) return false;
+    if (highScores.length < 5) return true;
+    const minScore = highScores[highScores.length - 1].score;
+    return newScore > minScore;
+  }
+
+  function showHighScoreForm() {
+    highScoreFormEl.classList.remove("hidden");
+    highScoreNameInputEl.value = "";
+    highScoreNameInputEl.focus();
+  }
+
+  function hideHighScoreForm() {
+    highScoreFormEl.classList.add("hidden");
+  }
+
+  function saveCurrentScoreToHighScores() {
+    const name = highScoreNameInputEl.value.trim() || "무명";
+    const record = {
+      name,
+      score,
+      date: new Date().toISOString()
+    };
+
+    highScores.push(record);
+    // 점수 내림차순 정렬
+    highScores.sort((a, b) => b.score - a.score);
+    // TOP 5만 유지
+    highScores = highScores.slice(0, 5);
+
+    saveHighScores();
+    renderHighScores();
+    hideHighScoreForm();
+  }
+
+  // ========== 이벤트 바인딩 ==========
 
   playBtn.onclick = () => {
     showGame();
@@ -718,15 +887,19 @@
   };
   endMenuBtn.onclick = showMenu;
 
+  saveHighScoreBtn.onclick = () => {
+    saveCurrentScoreToHighScores();
+  };
+
   gameBoardEl.addEventListener("pointerdown", onPointerDown);
   gameBoardEl.addEventListener("pointermove", onPointerMove);
   window.addEventListener("pointerup", onPointerUp);
 
+  // 초기화
+  loadHighScores();
+  renderHighScores();
   showMenu();
 </script>
 
 </body>
 </html>
-
-
-
